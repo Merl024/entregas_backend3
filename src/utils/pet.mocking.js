@@ -3,8 +3,7 @@ import { faker } from "@faker-js/faker"
 const generatePet = () => {
     return  {
         name: faker.animal.petName(),
-        species: faker.animal.type(),
-        birthDate: faker.date.birthdate().toISOString()
+        species: faker.animal.type()
     }
 }
 
