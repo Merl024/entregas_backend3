@@ -7,6 +7,8 @@ program
     .option('-d', 'Variable para debug', false)
     .option('-p <port>', 'Puerto del servidor')
     .option('--persist <mode>', 'Modo de persistencia', 'mongo')
+    .option('--mode <mode>', 'Modo de entorno', 'development')
+
 program.parse()
 
 console.log('Mode option: ', program.opts().mode);
