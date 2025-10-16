@@ -1,16 +1,18 @@
 import { expect } from "chai";
 import supertest from "supertest";
+import bcrypt from "bcryptjs";
 
 const requester = supertest("http://localhost:8080")
 
 describe('Probando todas las rutas de adoption', () => { 
     describe("Casos de exito de adoptions", function () {
         it("Endpoint para crear una adopcion", async function() {
+            const hashedPassword = await bcrypt.hash("coder123", 10);
             const user = {
                 first_name: "Juan",
                 last_name: "Perez",
                 email: "juan.perez@gmail.com",
-                password: "coder123"
+                password: hashedPassword
             }
             
             const userReq = await requester.post('/api/users').send(user)
@@ -42,12 +44,14 @@ describe('Probando todas las rutas de adoption', () => {
             expect(response.body.status).to.be.equal('success')
             expect(response.body.payload).to.be.an('array')
         })
+
         it("Endpoint para traer adoption por id", async function() {
+            const hashedPassword = await bcrypt.hash("coder123", 10);
             const user = {
                 first_name: "Enrique",
                 last_name: "Figueroa",
                 email: "enrique.f@gmail.com",
-                password: "coder123"
+                password: hashedPassword
             }
             
             const userReq = await requester.post('/api/users').send(user)
@@ -98,11 +102,12 @@ describe('Probando todas las rutas de adoption', () => {
         });
 
         it("Error al crear adopción con mascota inexistente", async function() {
+            const hashedPassword = await bcrypt.hash("coder123", 10);
             const user = {
                 first_name: "Ana",
                 last_name: "Lopez",
                 email: `ana.lopez${Date.now()}@gmail.com`,
-                password: "coder123"
+                password: hashedPassword
             }
             const userReq = await requester.post('/api/users').send(user)
             const userId = userReq.body.payload._id;
@@ -115,11 +120,12 @@ describe('Probando todas las rutas de adoption', () => {
         });
 
         it("Error al crear adopción con mascota ya adoptada", async function() {
+            const hashedPassword = await bcrypt.hash("coder123", 10);
             const user1 = {
                 first_name: "Luis",
                 last_name: "Martinez",
                 email: `luis.martinez${Date.now()}@gmail.com`,
-                password: "coder123"
+                password: hashedPassword
             }
             const userReq1 = await requester.post('/api/users').send(user1)
             const userId1 = userReq1.body.payload._id;
@@ -138,7 +144,7 @@ describe('Probando todas las rutas de adoption', () => {
                 first_name: "Maria",
                 last_name: "Gomez",
                 email: `maria.gomez${Date.now()}@gmail.com`,
-                password: "coder123"
+                password: hashedPassword
             }
             const userReq2 = await requester.post('/api/users').send(user2)
             const userId2 = userReq2.body.payload._id;
